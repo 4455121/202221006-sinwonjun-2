@@ -1,35 +1,28 @@
-import streamlit as st
 import numpy as np
-from sklearn.datasets import make_blobs
-from sklearn.cluster import KMeans
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
 import matplotlib.pyplot as plt
 
-# 데이터 생성
-X, _ = make_blobs(n_samples=300, centers=4, random_state=0, cluster_std=0.60)
+# Iris 데이터셋 로드
+iris = load_iris()
+X = iris.data
+y = iris.target
 
-# k-means 클러스터링
-kmeans = KMeans(n_clusters=4)
-kmeans.fit(X)
-labels = kmeans.labels_
-centroids = kmeans.cluster_centers_
+# 학습 데이터와 테스트 데이터로 분할
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Streamlit 앱 생성
-st.title('k-means Clustering')
-st.sidebar.header('Parameters')
+# k-NN 분류기 생성 및 학습
+knn = KNeighborsClassifier()
+knn.fit(X_train, y_train)
 
-# 클러스터 개수 선택
-n_clusters = st.sidebar.slider('Number of Clusters', min_value=2, max_value=10, value=4, step=1)
+# 테스트 데이터 예측
+y_pred = knn.predict(X_test)
 
-# k-means 클러스터링
-kmeans = KMeans(n_clusters=n_clusters)
-kmeans.fit(X)
-labels = kmeans.labels_
-centroids = kmeans.cluster_centers_
-
-# 클러스터 할당 결과 시각화
+# 예측 결과 시각화
 fig, ax = plt.subplots()
-ax.scatter(X[:, 0], X[:, 1], c=labels)
-ax.scatter(centroids[:, 0], centroids[:, 1], marker='*', c='red', s=150)
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-st.pyplot(fig)
+ax.scatter(X_test[:, 0], X_test[:, 1], c=y_pred)
+ax.set_xlabel('Sepal length')
+ax.set_ylabel('Sepal width')
+plt.show()

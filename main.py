@@ -54,3 +54,7 @@ elif example == 'k-means clustering':
 
         # 출력 파일 표시
         st.image('kmeans_clustering.png')
+
+        # 그래프 형태로 출력
+        st.pyplot()
+

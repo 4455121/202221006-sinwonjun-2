@@ -66,11 +66,14 @@ def kmeans_clustering():
 def main():
     st.title("Machine Learning Examples")
 
-    # Iris Classification 예제 실행
-    iris_classification()
+    # 사이드바 메뉴 선택
+    menu = st.sidebar.selectbox("Select Example", ["Iris Classification", "k-means Clustering"])
 
-    # K-means Clustering 예제 실행
-    kmeans_clustering()
+    # 예제 실행
+    if menu == "Iris Classification":
+        iris_classification()
+    elif menu == "k-means Clustering":
+        kmeans_clustering()
 
 if __name__ == '__main__':
     main()

@@ -1,30 +1,20 @@
-# iris_knn.py
+# iris_app.py
 
-import numpy as np
+import streamlit as st
 import pandas as pd
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Iris 데이터셋 로드
-iris = load_iris()
-X = iris.data
-y = iris.target
+iris_df = sns.load_dataset('iris')
 
-# 학습 데이터와 테스트 데이터로 분할
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# 품종별 꽃잎 길이 분포 그래프
+sns.set_style('whitegrid')
+fig = sns.FacetGrid(data=iris_df, hue='species', height=5)
+fig.map(sns.histplot, 'petal_length', bins=10, alpha=0.7)
+fig.add_legend()
 
-# k-NN 분류기 생성 및 학습
-knn = KNeighborsClassifier()
-knn.fit(X_train, y_train)
+# 그래프를 이미지 파일로 저장
+fig.savefig('iris_classification.png', format='png')
 
-# 테스트 데이터 예측
-y_pred = knn.predict(X_test)
-
-# 예측 결과 시각화
-fig, ax = plt.subplots()
-ax.scatter(X_test[:, 0], X_test[:, 1], c=y_pred)
-ax.set_xlabel('Sepal length')
-ax.set_ylabel('Sepal width')
-plt.savefig('iris_classification.png')
+# 출력
+st.image('iris_classification.png')

@@ -29,6 +29,9 @@ if example == 'iris classification':
         run_command = "streamlit run iris_app.py"
         subprocess.call(run_command, shell=True)
 
+        # 출력 파일 표시
+        st.image('iris_classification.png')
+
 elif example == 'k-means clustering':
     # GitHub 리포지토리 주소
     github_repo = 'https://github.com/your_username/your_repository_kmeans'
@@ -48,3 +51,6 @@ elif example == 'k-means clustering':
         # k-means 클러스터링 앱 실행
         run_command = "streamlit run kmeans_app.py"
         subprocess.call(run_command, shell=True)
+
+        # 출력 파일 표시
+        st.image('kmeans_clustering.png')
